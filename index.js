@@ -2,30 +2,33 @@
 // res = respond
 // next = i mean... comeone
 
-const express = require('express');
+const express = require("express");
 const app = express();
 const PORT = 8080;
 
-app.listen(
-    PORT,
-    () => console.log(`It's alive on http://localhost:${PORT}`)
-)
+app.set("view engine", "ejs");
 
-app.get('/', (req, res) => {
-    console.log('Here')
-    res.render('index')
-    // res.download('index.js')
-    // res.status(500).json({ message: "Error" })
-    // res.status(500).send("hi")
-    // res.send(`Hi`)
-})
+function logger(req, res, next) {
+  console.log(req.originalUrl);
+  next();
+}
 
+// app.get("/", logger, (req, res) => {
+//   res.render("index", { text: "World" });
+//   // res.download('index.js')
+//   // res.status(500).json({ message: "Error" })
+//   // res.status(500).send("hi")
+//   // res.send(`Hi`)
+// });
 
+app.use(express.static("public"));
 
+app.use(logger);
+const userRouter = require("./routes/users");
 
+app.use("/users", userRouter);
 
-
-
+app.listen(PORT, () => console.log(`It's alive on http://localhost:${PORT}`));
 
 // app.use( express.json() )
 
@@ -33,7 +36,7 @@ app.get('/', (req, res) => {
 // app.get('/', (req, res) => {
 //     res.send('GET request to the homepage')
 //   })
-  
+
 //   // POST method route
 //   app.post('/', (req, res) => {
 //     res.send('POST request to the homepage')
