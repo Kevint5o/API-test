@@ -22,6 +22,8 @@ function logger(req, res, next) {
 // });
 
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use(logger);
 const userRouter = require("./routes/users");
@@ -29,8 +31,6 @@ const userRouter = require("./routes/users");
 app.use("/users", userRouter);
 
 app.listen(PORT, () => console.log(`It's alive on http://localhost:${PORT}`));
-
-// app.use( express.json() )
 
 // // GET method route
 // app.get('/', (req, res) => {
