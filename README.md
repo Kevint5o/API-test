@@ -1,2 +1,2 @@
 # API-test
-creating a basic api
+This is a simple website with an API for testing purposes.
