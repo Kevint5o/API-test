@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  console.log(req.query.name);
-  res.send("User List");
+  console.log(users);
+  res.render("users/list", { list: users });
+  // res.json(users);
 });
 
 router.get("/new", (req, res) => {
@@ -13,7 +14,7 @@ router.get("/new", (req, res) => {
 router.post("/", (req, res) => {
   const isValid = true;
   if (isValid) {
-    users.push({ firstName: req.body.firstName });
+    users.push({ name: req.body.firstName });
     res.redirect(`/users/${users.length - 1}`);
   } else {
     console.log("Error");
@@ -27,6 +28,7 @@ router
   .route("/:id")
   .get((req, res) => {
     console.log(req.user);
+    // res.json(req.user);
     res.send(`Get User with ID ${req.params.id}`);
   })
   .put((req, res) => {
@@ -36,9 +38,31 @@ router
     res.send(`Remove User with ID ${req.params.id}`);
   });
 
-const users = [{ name: "olga" }, { name: "shutup" }];
+let users = [
+  { name: "john" },
+  { name: "helga" },
+  { name: "olga" },
+  { name: "jonathan" },
+  { name: "dean" },
+  { name: "johan" },
+  { name: "jannes" },
+  { name: "henk" },
+  { name: "jannes" },
+  { name: "pietje" },
+  { name: "kevin" },
+  { name: "nick" },
+  { name: "noortje" },
+  { name: "bryan" },
+  { name: "emma" },
+  { name: "justin" },
+];
+
 router.param("id", (req, res, next, id) => {
-  req.user = users[id];
+  if (users.length > id) {
+    req.user = users[id];
+  } else {
+    res.send("Error");
+  }
   next();
 });
 
