@@ -29,7 +29,7 @@ router
   .get((req, res) => {
     console.log(req.user);
     // res.json(req.user);
-    res.send(`Get User with ID ${req.params.id}`);
+    res.send(`User <b>${req.user.name}</b> with ID ${req.params.id}`);
   })
   .put((req, res) => {
     res.send(`Get User with ID ${req.params.id}`);
